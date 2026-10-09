@@ -4,7 +4,7 @@ const path = require('node:path');
 const arquivo = path.join(__dirname, '..', 'data', 'tarefas.json');
 
 function dadosIniciais() {
-  return { proximoId: 1, tarefas: [] };
+  return { tarefas: [] };
 }
 
 function carregarDados() {
@@ -24,11 +24,9 @@ function carregarDados() {
   }
 
   if (
-    !dados ||
-    !Number.isSafeInteger(dados.proximoId) ||
-    dados.proximoId < 1 ||
-    !Array.isArray(dados.tarefas)
-  ) {
+  !dados ||
+  !Array.isArray(dados.tarefas)
+){
     throw new Error('O arquivo de tarefas está em um formato inesperado.');
   }
 

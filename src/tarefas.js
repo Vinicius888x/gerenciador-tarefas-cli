@@ -1,22 +1,25 @@
+
 function adicionarTarefa(dados, descricao) {
   const texto = descricao.trim();
 
   if (!texto) {
-    throw new Error('A descrição da tarefa não pode estar vazia.');
-  }
-  if (!Number.isSafeInteger(dados.proximoId + 1)) {
-    throw new Error('O limite de IDs foi alcançado.');
+    throw new Error('A descrição não pode estar vazia.');
   }
 
+  const maiorId = dados.tarefas.reduce(
+    (maior, tarefa) => Math.max(maior, tarefa.id),
+    0
+  );
+
   const tarefa = {
-    id: dados.proximoId,
+    id: maiorId + 1,
     descricao: texto,
     status: 'pendente',
     criadaEm: new Date().toISOString()
   };
 
   dados.tarefas.push(tarefa);
-  dados.proximoId += 1;
+
   return tarefa;
 }
 
