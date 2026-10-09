@@ -172,7 +172,7 @@ O código foi dividido para separar responsabilidades:
 
 **Decisões:**
 
-- Guardar `proximoId` junto com as tarefas para não reutilizar IDs após remoções.
+- Calcular o próximo ID como o maior ID ainda existente na lista de tarefas mais 1, sem manter um contador `proximoId` separado. Tarefas concluídas continuam ocupando seus IDs; remover a tarefa de maior ID permite que esse número seja reutilizado em uma próxima inclusão.
 - Persistir os dados em JSON para manter o projeto simples, sem serviços ou dependências externas.
 - Gravar primeiro em arquivo temporário e depois renomeá-lo, reduzindo o risco de um JSON parcialmente escrito.
 - Usar `npm link` e a propriedade `bin` do `package.json` para oferecer o comando curto `tarefas`, mantendo `node index.js` como alternativa.
