@@ -1,120 +1,132 @@
 # Gerenciador de Tarefas CLI
 
-Aplicação de terminal para organizar tarefas. Desenvolvida em JavaScript/Node.js para o desafio técnico de Desenvolvedor Júnior da DPlay Solutions.
+Aplicação de terminal para organizar tarefas, desenvolvida em JavaScript/Node.js para o desafio técnico de Desenvolvedor Júnior da DPlay Solutions.
 
 ## Sobre o projeto
 
-O programa permite **adicionar, listar, filtrar, concluir, editar e remover tarefas**. Cada tarefa tem um ID único, descrição, status (`pendente` ou `concluída`) e data de criação. Os dados são guardados localmente em `data/tarefas.json` e continuam disponíveis depois que o programa é fechado.
+O programa permite **adicionar, listar, filtrar, concluir, editar e remover tarefas**. Cada tarefa possui um ID, uma descrição, um status (`pendente` ou `concluída`) e uma data de criação.
+
+Os dados são armazenados localmente em `data/tarefas.json` e continuam disponíveis depois que o programa é fechado. Cada ID é único **entre as tarefas que estão cadastradas no momento**.
 
 ## Tecnologias
 
-- **JavaScript** no **Node.js 18 ou superior**.
-- Bibliotecas nativas `fs` (arquivos), `path` (caminhos) e `node:test` (testes).
-- **JSON** para persistência dos dados.
-- **npm** para registrar o comando `tarefas` com `npm link`.
-- Nenhuma dependência externa; não é preciso rodar `npm install`.
+- **JavaScript** com **Node.js 18 ou superior**.
+- Módulos nativos do Node.js, incluindo `node:fs`, `node:path` e `node:test`.
+- **JSON** para persistência local dos dados.
+- **npm** para executar os testes e, opcionalmente, registrar o comando curto `tarefas`.
+- **Sem dependências externas**: não é necessário executar `npm install` para usar o programa ou rodar os testes.
 
-## Como instalar
+## Como instalar e executar
 
-Pré-requisitos: **Git** e **Node.js 18+**, com npm (incluído na instalação padrão do Node.js).
+**Pré-requisitos:** Git e Node.js 18 ou superior.
 
-Abra um terminal e execute, nesta ordem:
+Abra um terminal e execute **exatamente nesta ordem**:
 
 ```bash
 git clone https://github.com/Vinicius888x/gerenciador-tarefas-cli.git
 cd gerenciador-tarefas-cli
 node --version
+node index.js ajuda
+```
+
+Se a ajuda for exibida, a aplicação está pronta para uso. Não é necessário instalar pacotes, configurar um banco de dados, criar manualmente a pasta `data` nem definir variáveis de ambiente.
+
+### Opcional: usar o comando curto `tarefas`
+
+Se preferir digitar `tarefas` em vez de `node index.js`, execute **uma vez**, na pasta do projeto:
+
+```bash
 npm link
 tarefas ajuda
 ```
 
-O comando `npm link` registra `tarefas` no ambiente do npm. É uma configuração de desenvolvimento feita uma vez para esta instalação; você poderá executar `tarefas` mesmo fora da pasta do projeto. As tarefas continuam sendo salvas **na pasta `data` deste repositório**.
+O comando `npm link` registra um vínculo no ambiente do npm. Assim, é possível usar `tarefas` também de outras pastas. Os dados continuam sendo armazenados em `data/tarefas.json`, dentro deste projeto.
 
-**Alternativa sem `npm link`:** dentro da pasta do projeto, substitua `tarefas` por `node index.js`. Por exemplo:
+O uso de `npm link` **não é obrigatório**. Todos os comandos descritos a seguir funcionam diretamente com `node index.js` na pasta do repositório.
 
-```bash
-node index.js ajuda
-```
-
-Se o terminal informar que não reconhece `tarefas`, confira se `npm link` terminou sem erros. Não é necessário criar manualmente a pasta `data`, instalar banco de dados ou adicionar variáveis de ambiente.
+Para desfazer o vínculo global do npm, execute `npm unlink -g gerenciador-tarefas-cli`.
 
 ## Como usar
 
-Após instalar, execute os comandos abaixo. As saídas e datas mostradas são **exemplos**: o número do ID depende das tarefas cadastradas, e a data será a do momento da criação.
+Os exemplos abaixo usam a forma de execução que não exige `npm link`. Quem instalou o comando curto pode substituir `node index.js` por `tarefas`.
 
-### Adicionar
+As saídas e datas são **ilustrativas**: o ID depende das tarefas existentes e a data corresponde ao dia em que a tarefa foi criada.
+
+### Adicionar uma tarefa
 
 ```bash
-tarefas adicionar "Estudar Git"
+node index.js adicionar "Estudar Git"
 ```
 
 ```text
 Tarefa #1 adicionada.
 ```
 
-### Listar todas
+### Listar todas as tarefas
 
 ```bash
-tarefas listar
+node index.js listar
 ```
 
 ```text
 [ ] #1 Estudar Git  08/10/2026
 ```
 
-O marcador `[ ]` indica tarefa pendente; `[x]`, tarefa concluída.
+O marcador `[ ]` indica uma tarefa pendente; `[x]`, uma tarefa concluída.
 
 ### Filtrar por status
 
 ```bash
-tarefas listar pendentes
-tarefas listar concluidas
+node index.js listar pendentes
+node index.js listar concluidas
 ```
 
-Exemplo após concluir a tarefa #1 e cadastrar uma tarefa #2:
+Exemplo da listagem de pendentes após concluir a tarefa #1 e cadastrar a tarefa #2:
 
 ```text
 [ ] #2 Revisar JavaScript  08/10/2026
 ```
 
-O exemplo acima corresponde à listagem de `pendentes`. O comando `listar concluidas` exibirá apenas tarefas concluídas.
+O comando `listar concluidas` apresenta somente as tarefas concluídas.
 
-### Concluir
+### Concluir uma tarefa
 
 ```bash
-tarefas concluir 1
+node index.js concluir 1
 ```
 
 ```text
 Tarefa #1 concluída.
 ```
 
+Concluir uma tarefa muda seu status, mas **não a remove da lista**.
+
 ### Editar a descrição
 
 ```bash
-tarefas editar 1 "Estudar Git e GitHub"
+node index.js editar 1 "Estudar Git e GitHub"
 ```
 
 ```text
 Tarefa #1 atualizada.
 ```
 
-A edição mantém o ID, a data de criação e o status da tarefa.
+A edição preserva o ID, o status e a data de criação.
 
-### Remover
+### Remover uma tarefa
 
 ```bash
-tarefas remover 1
+node index.js remover 1
 ```
 
 ```text
 Tarefa #1 removida.
 ```
 
-### Ajuda
+### Exibir a ajuda
 
 ```bash
-tarefas ajuda
+node index.js ajuda
 ```
 
 ```text
@@ -131,64 +143,73 @@ Comandos:
 Também é possível substituir "tarefas" por "node index.js" dentro da pasta do projeto.
 ```
 
+A ajuda exibe os comandos na forma abreviada `tarefas`, mas eles também funcionam usando `node index.js`.
+
 ### Exemplos de erros
 
+ID inexistente:
+
 ```bash
-tarefas concluir 999
+node index.js concluir 999
 ```
 
 ```text
 Erro: Tarefa #999 não encontrada.
 ```
 
+Descrição vazia:
+
 ```bash
-tarefas adicionar ""
+node index.js adicionar ""
 ```
 
 ```text
 Erro: Informe uma descrição. Exemplo: tarefas adicionar "Estudar Git"
 ```
 
-Comandos ou filtros inválidos, descrições vazias e IDs incorretos produzem mensagens claras. Nessas situações o programa retorna código de saída diferente de zero.
+Comandos ou filtros inválidos, descrições vazias e IDs incorretos geram mensagens claras. Em caso de erro, o processo termina com código de saída diferente de zero. Se o arquivo JSON estiver inválido ou contiver registros inconsistentes, o programa interrompe a operação sem sobrescrever o arquivo de dados.
 
 ## Como executar os testes
 
-Dentro da pasta do projeto:
+Na pasta do projeto, execute:
 
 ```bash
 npm test
 ```
 
-Os testes automatizados utilizam o executor nativo `node:test`, sem bibliotecas externas, e verificam as regras de negócio, os comandos, a persistência e os erros. Os testes de terminal criam diretórios temporários separados, sem modificar seu arquivo pessoal `data/tarefas.json`.
+Os testes usam `node:test`, sem bibliotecas externas. Cobrem as regras de negócio, os comandos de terminal, a persistência, o tratamento de erros e a validação de dados armazenados. Os testes de integração trabalham com diretórios temporários separados e não modificam suas tarefas em `data/tarefas.json`.
 
 ## Como foi o desenvolvimento
 
-O código foi dividido para separar responsabilidades:
+O código foi organizado para separar responsabilidades:
 
-- `index.js`: interpreta argumentos do terminal, valida comandos e apresenta mensagens.
-- `src/tarefas.js`: implementa as regras de negócio (adicionar, concluir, editar, filtrar e remover).
-- `src/armazenamento.js`: lê e grava o JSON local.
-- `test/`: testes unitários e testes de integração da CLI.
+- `index.js`: interpreta os argumentos do terminal, valida comandos e apresenta mensagens.
+- `src/tarefas.js`: concentra as regras de negócio (adicionar, concluir, editar, filtrar e remover).
+- `src/armazenamento.js`: lê, valida e grava o arquivo JSON local.
+- `test/`: reúne testes das regras de negócio e da interface de terminal, inclusive cenários com dados inválidos.
 
-**Decisões:**
+**Decisões tomadas:**
 
-- Calcular o próximo ID como o maior ID ainda existente na lista de tarefas mais 1, sem manter um contador `proximoId` separado. Tarefas concluídas continuam ocupando seus IDs; remover a tarefa de maior ID permite que esse número seja reutilizado em uma próxima inclusão.
-- Persistir os dados em JSON para manter o projeto simples, sem serviços ou dependências externas.
-- Gravar primeiro em arquivo temporário e depois renomeá-lo, reduzindo o risco de um JSON parcialmente escrito.
-- Usar `npm link` e a propriedade `bin` do `package.json` para oferecer o comando curto `tarefas`, mantendo `node index.js` como alternativa.
-- Manter os testes com ferramentas nativas do Node.js para facilitar a instalação.
+- Calcular o próximo ID como **o maior ID ainda existente mais 1**, sem armazenar um contador `proximoId`. Tarefas concluídas continuam ocupando seus IDs. Remover uma tarefa intermediária não renumera as demais; remover a tarefa de maior ID pode permitir que seu número seja reutilizado em uma inclusão futura.
+- Utilizar JSON para manter o projeto simples e independente de serviços ou banco de dados externo.
+- Validar os registros lidos do JSON (ID, descrição, status e data) e rejeitar IDs duplicados ou inválidos antes de executar alterações. Também impedir que novos IDs ultrapassem o limite seguro de inteiros do JavaScript.
+- Gravar primeiro em um arquivo temporário e depois renomeá-lo, reduzindo o risco de deixar um JSON parcialmente escrito em caso de falha durante a gravação.
+- Oferecer `node index.js` como forma direta de execução e `npm link` como facilidade opcional, através do campo `bin` no `package.json`.
+- Utilizar ferramentas nativas do Node.js nos testes para evitar dependências adicionais.
 
 **Dificuldades e soluções encontradas:**
 
-- Durante a primeira configuração no Codespaces, a pasta `src` não havia sido copiada corretamente, causando o erro `Cannot find module './src/armazenamento'`. A solução foi conferir a estrutura de diretórios e copiar os arquivos ausentes.
-- Com o crescimento do número de comandos, a leitura dos argumentos foi separada em funções menores de validação. Isso ajuda a padronizar as mensagens de erro.
+- Na primeira configuração no Codespaces, a pasta `src` não havia sido copiada completamente e ocorreu `Cannot find module './src/armazenamento'`. A estrutura de diretórios foi conferida e os arquivos ausentes foram copiados.
+- Após alterar a regra de geração de IDs, alguns testes ainda esperavam a numeração anterior. Os testes foram adaptados para verificar a regra atual, incluindo os casos de remoção e conclusão de tarefas.
+- A auditoria identificou que JSON válido sintaticamente ainda podia conter tarefas inválidas ou IDs duplicados. Foi acrescentada uma validação detalhada durante a leitura, acompanhada de testes para esses cenários.
 
 ## Próximos passos
 
-Com mais tempo, seria interessante adicionar prioridade e prazo às tarefas, ordenar a listagem, oferecer exportação de dados e estudar um armazenamento adequado para múltiplas pessoas ou acessos simultâneos.
+Com mais tempo, seria interessante adicionar prioridade e prazo às tarefas, permitir a ordenação da listagem, implementar exportação de dados e estudar um armazenamento apropriado para múltiplos usuários ou acessos simultâneos.
 
 ## Observações
 
-- Os dados são locais à pasta do projeto e não são enviados para a internet.
-- O arquivo `data/tarefas.json` está no `.gitignore` para evitar publicar tarefas pessoais ou dados de teste.
-- Para desfazer o link global do npm, execute `npm unlink -g gerenciador-tarefas-cli`.
+- As tarefas são armazenadas localmente; a aplicação não envia esses dados para a internet.
+- O arquivo `data/tarefas.json` é ignorado pelo Git via `.gitignore`, para evitar publicar tarefas pessoais ou dados de teste.
+- A aplicação foi projetada para uso local e **sequencial**: execuções simultâneas que escrevam no mesmo arquivo não são suportadas.
+- Somente o comando `remover` exclui uma tarefa. O comando `concluir` apenas altera seu status.
