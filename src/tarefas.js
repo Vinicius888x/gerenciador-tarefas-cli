@@ -1,5 +1,5 @@
 function adicionarTarefa(dados, descricao) {
-  const texto = descricao.trim();
+  const texto = descricao.replace(/\s*[\r\n]+\s*/g, ' ').trim();
 
   if (!texto) {
     throw new Error('A descrição não pode estar vazia.');
@@ -50,7 +50,7 @@ function concluirTarefa(dados, id) {
 }
 
 function editarTarefa(dados, id, descricao) {
-  const texto = descricao.trim();
+  const texto = descricao.replace(/\s*[\r\n]+\s*/g, ' ').trim();
   if (!texto) {
     throw new Error('A descrição da tarefa não pode estar vazia.');
   }

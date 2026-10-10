@@ -7,6 +7,16 @@ function dadosIniciais() {
   return { tarefas: [] };
 }
 
+function dataIsoValida(valor) {
+  if (typeof valor !== 'string' ||
+      !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(valor)) {
+    return false;
+  }
+
+  const data = new Date(valor);
+  return !Number.isNaN(data.getTime()) && data.toISOString() === valor;
+}
+
 function carregarDados() {
   if (!fs.existsSync(arquivo)) {
     return dadosIniciais();
@@ -38,9 +48,9 @@ function carregarDados() {
       tarefa.id > 0 &&
       typeof tarefa.descricao === 'string' &&
       tarefa.descricao.trim().length > 0 &&
+      !/[\r\n]/.test(tarefa.descricao) &&
       ['pendente', 'concluída'].includes(tarefa.status) &&
-      typeof tarefa.criadaEm === 'string' &&
-      !Number.isNaN(Date.parse(tarefa.criadaEm));
+      dataIsoValida(tarefa.criadaEm);
 
     if (!valida || ids.has(tarefa.id)) {
       throw new Error(
